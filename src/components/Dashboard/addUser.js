@@ -2,99 +2,46 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./header";
-const AddUser = () => {
-  const param = new URLSearchParams(window.location.search)
-  const id=param.get('id')
-  console.log('id',id)
-  const token = localStorage.getItem("token");
-const[userData,setUserData]=useState('')
+const AddUser = ({saveUpdateData,setSubmitted,submitted,saveUser,filterData}) => {
+  // const param = new URLSearchParams(window.location.search);
+  // const id = param.get("id");
+  // console.log("id", id);
+  console.log('filterData',filterData);
+  const [data, setData] = useState('');
+useEffect(()=>{
+setData( {
+  name:filterData && filterData ? filterData.name : "",
+  address:filterData&& filterData ? filterData.address : "",
+  mobile_no:filterData&& filterData ? filterData.mobile_no : "",
+  email: filterData&&filterData ? filterData.email : "",
+  gender:filterData&& filterData ? filterData.gender : "",
+})
+},[filterData])
+
   const navigate = useNavigate();
 
-  console.log('user==',userData)
-  const filterData= userData && userData.filter(function (el)
-  {
-    return el.id ==id
-          
-  }
-  );
-  console.log('filterData',filterData);
-  const initialData = {
-    name: filterData?filterData[0].name:"",
-    address:filterData?filterData[0].address:"",
-    mobile_no:filterData?filterData[0].mobile_no:"",
-    email: filterData?filterData[0].email:"",
-    gender: filterData?filterData[0].gender:"",
-  };
-  console.log('initialData',initialData)
-  const [data, setData] = useState(initialData);
-    useEffect(() => {
-    async function getData() {
-     
-      await axios
-        .get("http://test-api.kk-lotto.com:8080/api/customers/paginate", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(function (response) {
-          console.log(response);
-          setUserData(response.data.data);
-        })
-        .catch(function (error) {
-          console.log(error, "this is my error");
-        });
-    }
-    if(id){
-    getData()
-  };
-  }, [id]);
+ 
+  console.log("data", data);
 
-  console.log('data',data)
-  const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setData({ ...data, [name]: value });
   };
 
-  const saveUser = async () => {
-    await axios
-      .post("http://test-api.kk-lotto.com:8080/api/customers", data, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(function (response) {
-        console.log(response);
-        setSubmitted(true);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-   
-  };
 
-  const updateUser = async () => {
-    await axios
-      .patch(`http://test-api.kk-lotto.com:8080/api/customers/${id}`, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then(function (response) {
-        console.log(response);
-        setSubmitted(true);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-   
-  };
 
   const newUser = () => {
-    setData(initialData);
+    // setData(initialData);
+    setData('')
     setSubmitted(false);
   };
   const handleClick = () => {
     navigate("/dashboard");
   };
   return (
-    <>
-      <Header />
+    <> 
+      {/* <Header /> */}
       <div className="submit-form">
         {submitted ? (
           <div>
@@ -108,9 +55,9 @@ const[userData,setUserData]=useState('')
             <br />
             <br />
 
-            <button className="btn btn-success" onClick={handleClick}>
+            {/* <button className="btn btn-success" onClick={handleClick}>
               Go to Dashboard
-            </button>
+            </button> */}
           </div>
         ) : (
           <div>
@@ -184,17 +131,23 @@ const[userData,setUserData]=useState('')
                 value="Female"
               />
             </div>
-            {filterData?<button onClick={updateUser} className="btn btn-success">
-              Update
-            </button>:<button onClick={saveUser} className="btn btn-success">
-              Submit
-            </button>}
-            <div style={{ marginTop: "200px" }}>
+            {filterData ? (
+              <button 
+              onClick={()=>saveUpdateData(data,filterData.id)}
+              className="btn btn-success">
+                Update
+              </button>
+            ) : (
+              <button onClick={()=>saveUser(data)} className="btn btn-success">
+                Submit
+              </button>
+            )}
+            {/* <div style={{ marginTop: "200px" }}>
               {" "}
               <button className="btn btn-success" onClick={handleClick}>
                 Go to Dashboard
               </button>
-            </div>
+            </div> */}
           </div>
         )}
       </div>

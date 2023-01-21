@@ -1,21 +1,13 @@
-const FilterBy = ({ sort, sorting }) => {
+const FilterBy = ({ filter }) => {
   return (
-    // <DropdownButton
-    //   id="dropdown-basic-button"
-    //   className="m-5"
-    //   title="Filter By"
-    //   value={sort}
-    //   onChnange={sorting}
-    // >
-    //   <Dropdown.Item href="#/action-1">Male</Dropdown.Item>
-    //   <Dropdown.Item href="#/action-1">Female</Dropdown.Item>
-    // </DropdownButton>
-    <div>
-      <select value={sort} onChange={sorting}>
+   
+    <div className="m-3">Filter By
+      <select defaultValue="Choose " onChange={(e)=>{ filter(e.target.value)}}>
+      <option value=''>All</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
       </select>
-      {sort}
+     
     </div>
   );
 };
