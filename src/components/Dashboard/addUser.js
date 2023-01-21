@@ -1,46 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import Header from "./header";
-const AddUser = ({saveUpdateData,setSubmitted,submitted,saveUser,filterData}) => {
-  // const param = new URLSearchParams(window.location.search);
-  // const id = param.get("id");
-  // console.log("id", id);
-  console.log('filterData',filterData);
-  const [data, setData] = useState('');
-useEffect(()=>{
-setData( {
-  name:filterData && filterData ? filterData.name : "",
-  address:filterData&& filterData ? filterData.address : "",
-  mobile_no:filterData&& filterData ? filterData.mobile_no : "",
-  email: filterData&&filterData ? filterData.email : "",
-  gender:filterData&& filterData ? filterData.gender : "",
-})
-},[filterData])
 
-  const navigate = useNavigate();
+const AddUser = ({
+  saveUpdateData,
+  setSubmitted,
+  submitted,
+  validationMessages,
+  saveUser,
+  filterData,
+}) => {
 
- 
-  console.log("data", data);
+  const [data, setData] = useState("");
+  useEffect(() => {
+    setData({
+      name: filterData && filterData ? filterData.name : "",
+      address: filterData && filterData ? filterData.address : "",
+      mobile_no: filterData && filterData ? filterData.mobile_no : "",
+      email: filterData && filterData ? filterData.email : "",
+      gender: filterData && filterData ? filterData.gender : "",
+    });
+  }, [filterData]);
 
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+  
     setData({ ...data, [name]: value });
   };
 
-
-
   const newUser = () => {
     // setData(initialData);
-    setData('')
+    setData("");
     setSubmitted(false);
   };
-  const handleClick = () => {
-    navigate("/dashboard");
-  };
+
   return (
-    <> 
+    <>
       {/* <Header /> */}
       <div className="submit-form">
         {submitted ? (
@@ -53,11 +48,6 @@ setData( {
             <br />
             <br />
             <br />
-            <br />
-
-            {/* <button className="btn btn-success" onClick={handleClick}>
-              Go to Dashboard
-            </button> */}
           </div>
         ) : (
           <div>
@@ -132,22 +122,21 @@ setData( {
               />
             </div>
             {filterData ? (
-              <button 
-              onClick={()=>saveUpdateData(data,filterData.id)}
-              className="btn btn-success">
+              <button
+                onClick={() => saveUpdateData(data, filterData.id)}
+                className="btn btn-success"
+              >
                 Update
               </button>
             ) : (
-              <button onClick={()=>saveUser(data)} className="btn btn-success">
+              <button
+                onClick={() => saveUser(data)}
+                className="btn btn-success"
+              >
                 Submit
               </button>
             )}
-            {/* <div style={{ marginTop: "200px" }}>
-              {" "}
-              <button className="btn btn-success" onClick={handleClick}>
-                Go to Dashboard
-              </button>
-            </div> */}
+               
           </div>
         )}
       </div>

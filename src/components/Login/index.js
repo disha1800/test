@@ -1,11 +1,21 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
   const [response, setResponse] = useState("");
   const [data, setData] = useState({ email: "", password: "" });
+ 
+
+
+    useEffect(() => {
+        let isAuth = (localStorage.getItem('token'));
+        if(isAuth && isAuth !== null) {
+            navigate("/dashboard");
+        }
+    }, []);
+
   const handleInputChange = (event) => {
    
     const { name, value } = event.target;
