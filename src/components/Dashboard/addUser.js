@@ -25,7 +25,9 @@ const[userData,setUserData]=useState('')
     email: filterData?filterData[0].email:"",
     gender: filterData?filterData[0].gender:"",
   };
-  useEffect(() => {
+  console.log('initialData',initialData)
+  const [data, setData] = useState(initialData);
+    useEffect(() => {
     async function getData() {
      
       await axios
@@ -40,12 +42,11 @@ const[userData,setUserData]=useState('')
           console.log(error, "this is my error");
         });
     }
-    
+    if(id){
     getData()
-
+  };
   }, [id]);
-  console.log('initialData',initialData)
-  const [data, setData] = useState(initialData);
+
   console.log('data',data)
   const [submitted, setSubmitted] = useState(false);
 
