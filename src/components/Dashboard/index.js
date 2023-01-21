@@ -17,30 +17,13 @@ const Dashboard = () => {
     if (!token) navigate("/");
   }, [token]);
 
-  const sorting = (e) => {
-    setSort(e.target.value);
-    list.filter((data) => {
-      if (sort === "Men") {
-        console.log("Men");
-        return data;
-      }
-      if (data === "Women" && sort === "Women") {
-        console.log("Women");
-        return data;
-      }
-      return null;
-    });
-  };
-
-  // filtering by Gender
+ 
 
   return (
     <>
       <Header />
 
-       {/* <FilterBy sorting={sorting} sort={sort} /> */}
-    {/* /  <SortBy /> */}
-      {/* <List list={list} setList={setList} /> */}
+  
       <List  />
     </>
   );

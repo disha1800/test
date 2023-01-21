@@ -34,7 +34,7 @@ const Header = () => {
             >
               Logout
             </Nav.Link>
-            <Navbar.Brand href="/add">Add User</Navbar.Brand>
+           
           </Nav>
         </Container>
       </Navbar>
